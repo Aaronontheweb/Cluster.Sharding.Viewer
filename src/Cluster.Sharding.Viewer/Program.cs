@@ -15,8 +15,7 @@ namespace Cluster.Sharding.Viewer
         {
             var hocon = ConfigurationFactory.ParseString(File.ReadAllText("reference.conf"));
             var actorSystem = ActorSystem.Create("ClusterShardingViewer",
-                hocon.WithFallback(ClusterSharding.DefaultConfig())
-                    .WithFallback(SqlReadJournal.DefaultConfiguration()));
+                hocon.WithFallback(SqlReadJournal.DefaultConfiguration()));
             actorSystem.Log.Info("Starting up...");
 
             var readJournal = actorSystem.ReadJournalFor<SqlReadJournal>(SqlReadJournal.Identifier);
