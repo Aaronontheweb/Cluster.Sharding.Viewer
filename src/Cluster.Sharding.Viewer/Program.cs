@@ -1,4 +1,8 @@
 ﻿using System;
+using System.IO;
+using Akka.Actor;
+using Akka.Cluster.Sharding;
+using Akka.Configuration;
 
 namespace Cluster.Sharding.Viewer
 {
@@ -6,7 +10,14 @@ namespace Cluster.Sharding.Viewer
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var hocon = ConfigurationFactory.ParseString(File.ReadAllText("reference.conf"));
+            var actorSystem = ActorSystem.Create("ClusterShardingViewer",
+                hocon.WithFallback(ClusterSharding.DefaultConfig()));
+            actorSystem.Log.Info("Starting up...");
+
+
+
+            Console.ReadLine();
         }
     }
 }
